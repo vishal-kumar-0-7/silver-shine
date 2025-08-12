@@ -10,7 +10,7 @@ import { Pool } from 'pg';
 import pool from './db.js';
 
 const app = express();
-const PORT = process.env.PORT || 9050;
+const PORT = process.env.PORT || 8080;
 
 // Middleware
 app.use(cors({
