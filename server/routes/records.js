@@ -8,18 +8,31 @@ const __dirname = path.dirname(__filename);
 
 const router = express.Router();
 
+// Try multiple locations (server folder and repo root) to find the cleaned files.
+function findDataFile(relativePaths) {
+  for (const rel of relativePaths) {
+    const p = path.join(__dirname, rel);
+    if (fs.existsSync(p)) return p;
+  }
+  return null;
+}
+
 router.get('/download', async (req, res) => {
   const { type } = req.query;
-  let filePath;
   let fileName;
+  let candidateRel;
+
   if (type === 'egg') {
-    filePath = path.join(__dirname, '../egg_production_cleaned.xlsx');
     fileName = 'egg_production_cleaned.xlsx';
+    candidateRel = ['../egg_production_cleaned.xlsx', '../../egg_production_cleaned.xlsx'];
   } else {
-    filePath = path.join(__dirname, '../expenses_cleaned.xlsx');
     fileName = 'expenses_cleaned.xlsx';
+    candidateRel = ['../expenses_cleaned.xlsx', '../../expenses_cleaned.xlsx'];
   }
-  if (!fs.existsSync(filePath)) {
+
+  const filePath = findDataFile(candidateRel);
+  if (!filePath) {
+    console.warn(`Requested ${fileName} but none of the candidate paths exist: ${candidateRel.join(', ')}`);
     return res.status(404).json({ message: 'No data file found' });
   }
   res.download(filePath, fileName);
