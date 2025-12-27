@@ -4,7 +4,7 @@ A small farm bookkeeping app for egg production and expenses.
 
 ---
 
-## Project overview ✅
+## Project overview
 
 - Frontend: React (Vite + TailwindCSS)
 - Backend: Node + Express, packaged to run as a local server or as a Vercel serverless API using `serverless-http`
@@ -12,7 +12,7 @@ A small farm bookkeeping app for egg production and expenses.
 
 ---
 
-## Repository structure 🔧
+## Repository structure
 
 - /client — React frontend (Vite)
 - /server — Express backend API
@@ -29,7 +29,7 @@ A small farm bookkeeping app for egg production and expenses.
 
 ---
 
-## Local development 🧪
+## Local development 
 
 1. Install dependencies
 
@@ -50,7 +50,7 @@ A small farm bookkeeping app for egg production and expenses.
 
 ---
 
-## Build & Deploy 🚀
+## Build & Deploy 
 
 - Frontend build: `cd client && npm run build`
 - Backend production: `cd server && npm run start`
@@ -69,7 +69,7 @@ Create a `.env` file in `/server` (or set env vars in your host):
 
 ---
 
-## Downloading the cleaned Excel files (known issue + troubleshooting) ⚠️
+## Downloading the cleaned Excel files (known issue + troubleshooting) 
 
 The app serves two cleaned spreadsheets for download:
 - `egg_production_cleaned.xlsx`
@@ -92,29 +92,11 @@ These are expected at the repository root. If the `/api/records/download?type=eg
 
 5. If the server still returns 404, inspect `server/routes/records.js` which attempts multiple relative paths; add diagnostic logging there to see which candidate paths were checked.
 
-Notes: Relative file lookup depends on the server file's `__dirname` (or `fileURLToPath(import.meta.url)` in ESM). If you see inconsistent results, it is usually caused by a stale server process, or a difference between the running process CWD and the actual repo layout.
 
----
-
-## Troubleshooting & common fixes 🔍
-
-- Vite build failure complaining about `terser not found` → we use esbuild now; check `vite.config.js` and `build.minify` if you see similar errors.
-- Case-sensitive import failures on deployment (Vercel is case-sensitive): ensure component filenames and imports match exactly (e.g., `Dashboard.jsx` vs `dashboard.jsx`).
-- DB audit errors (UUID insert failures): server validates UUIDs before inserting audit rows to avoid `22P02` errors.
-
----
-
-## Contributing
+Contributing
 
 - Use branches for features/fixes
 - Keep frontend and backend changes scoped to `client/` and `server/`
 
----
 
-## License
 
-MIT — see LICENSE (add or modify as appropriate)
-
----
-
-If you want, I can also add a `README.frontend.md` and `README.server.md` with more targeted developer instructions or generate a short deployment checklist for Vercel or Docker. ✅
