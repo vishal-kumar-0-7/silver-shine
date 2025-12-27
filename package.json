@@ -10,7 +10,14 @@
     "frontend:dev": "vite",
     "frontend:build": "vite build",
     "frontend:lint": "eslint .",
-    "frontend:preview": "vite preview"
+    "frontend:preview": "vite preview",
+    "build": "npm run frontend:build",
+    "start": "NODE_ENV=production node server.js",
+    "deploy": "./deploy.sh",
+    "pm2:start": "pm2 start ecosystem.config.js",
+    "pm2:stop": "pm2 stop egg-farm-backend",
+    "pm2:restart": "pm2 restart egg-farm-backend",
+    "pm2:logs": "pm2 logs egg-farm-backend"
   },
   "dependencies": {
     "bcryptjs": "^3.0.2",

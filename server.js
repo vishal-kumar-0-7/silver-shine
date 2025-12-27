@@ -51,10 +51,11 @@ app.use('*', (req, res) => {
 });
 
 // Start server
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Server is running on port ${PORT}`);
   console.log(`📊 Excel file will be created as: data.xlsx`);
-  console.log(`🔗 API Health Check: http://localhost:${PORT}/api/health`);
+  console.log(`🔗 API Health Check: http://0.0.0.0:${PORT}/api/health`);
+  console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
 });
 
 export default app;
