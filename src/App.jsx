@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Login from './components/Login';
-import Dashboard from './components/dashboard';
+import Dashboard from './components/Dashboard';
 import EggProduction from './components/EggProduction';
 import Header from './components/Header';
 import { authAPI } from './utils/api';
