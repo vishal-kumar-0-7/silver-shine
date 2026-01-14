@@ -57,10 +57,10 @@ app.use('*', (req, res) => {
 // Start server (only start the HTTP listener when NOT running on Vercel serverless)
 if (!process.env.VERCEL) {
   app.listen(PORT, '0.0.0.0', () => {
-    console.log(`🚀 Server is running on port ${PORT}`);
-    console.log(`📊 Excel file will be created as: data.xlsx`);
-    console.log(`🔗 API Health Check: http://0.0.0.0:${PORT}/api/health`);
-    console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
+    console.log(`Server is running on port ${PORT}`);
+    console.log(`Excel file will be created as: data.xlsx`);
+    console.log(`API Health Check: http://0.0.0.0:${PORT}/api/health`);
+    console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
   });
 }
 
