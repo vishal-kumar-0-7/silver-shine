@@ -7,13 +7,14 @@ import expenseRoutes from './routes/expenses.js';
 import eggProductionRoutes from './routes/eggProduction.js';
 import recordsRoutes from './routes/records.js';
 import pool from './db.js';
+import initDatabase from './init-db.js';
 
 const app = express();
 const PORT = process.env.PORT || 8080;
 
 // Middleware
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
   credentials: true
 }));
 
@@ -54,15 +55,32 @@ app.use('*', (req, res) => {
   res.status(404).json({ message: 'Route not found' });
 });
 
-// Start server (only start the HTTP listener when NOT running on Vercel serverless)
-if (!process.env.VERCEL) {
-  app.listen(PORT, '0.0.0.0', () => {
-    console.log(`🚀 Server is running on port ${PORT}`);
-    console.log(`📊 Excel file will be created as: data.xlsx`);
-    console.log(`🔗 API Health Check: http://0.0.0.0:${PORT}/api/health`);
-    console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
-  });
-}
+// Initialize database and start server
+const startServer = async () => {
+  try {
+    // Test database connection
+    await pool.query('SELECT NOW()');
+    console.log('✅ Database connection successful');
+
+    // Initialize database tables
+    await initDatabase();
+
+    // Start server (only start the HTTP listener when NOT running on Vercel serverless)
+    if (!process.env.VERCEL) {
+      app.listen(PORT, '0.0.0.0', () => {
+        console.log(`🚀 Server is running on port ${PORT}`);
+        console.log(`📊 Excel file will be created as: data.xlsx`);
+        console.log(`🔗 API Health Check: http://0.0.0.0:${PORT}/api/health`);
+        console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
+      });
+    }
+  } catch (error) {
+    console.error('❌ Failed to start server:', error);
+    process.exit(1);
+  }
+};
+
+startServer();
 
 export default app;
 

@@ -1,28 +1,20 @@
-# ---- Build stage ----
-FROM node:20-alpine AS build
+# Development Dockerfile
+FROM node:20-alpine
 
 # Set working directory
 WORKDIR /app
 
-# Install dependencies
+# Copy package files
 COPY package*.json ./
-RUN npm ci --silent
 
-# Copy source and build
+# Install dependencies
+RUN npm ci --silent --no-audit --no-fund
+
+# Copy source files (excluding node_modules, dist, etc. via .dockerignore)
 COPY . .
-RUN npm run build
 
-# ---- Production stage ----
-FROM nginx:stable-alpine AS production
+# Expose Vite dev server port
+EXPOSE 5173
 
-# Remove default nginx website
-RUN rm -rf /usr/share/nginx/html/*
-
-# Copy built assets from build stage
-COPY --from=build /app/dist /usr/share/nginx/html
-
-# Copy custom nginx config for SPA routing
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+# Run development server with host flag to allow external access
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
