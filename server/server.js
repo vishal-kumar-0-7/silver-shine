@@ -20,7 +20,7 @@ app.use(cors({
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
+app.use(express.static('public'));
 // Route prefix: when running on Vercel serverless, requests are mounted under /api and
 // the internal path seen by Express will typically not include the /api prefix.
 // To support both local (dev) and Vercel (production) runtimes, set a prefix accordingly.
